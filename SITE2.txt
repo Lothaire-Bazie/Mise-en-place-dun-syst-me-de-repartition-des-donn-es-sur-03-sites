@@ -1,0 +1,93 @@
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Ven. Mars 18 01:23:44 2022
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+Entrez le nom utilisateur : site2/passer@localhost:1521/ORCLPDB
+
+ConnectÚ Ó :
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+SQL>
+SQL> show user
+USER est "SITE2"
+SQL> create database link SITE2TOSITE1
+  2  connect to SITE1 identified by passer
+  3  using 'localhost:1521/ORCLPDB';
+
+Lien de base de donnÚes crÚÚ.
+
+SQL> select * from CLEINT where VILLE='DAKAR';
+select * from CLEINT where VILLE='DAKAR'
+              *
+ERREUR Ó la ligne 1 :
+ORA-00942: Table ou vue inexistante
+
+
+SQL> select * from CLIENT where VILLE='DAKAR';
+select * from CLIENT where VILLE='DAKAR'
+              *
+ERREUR Ó la ligne 1 :
+ORA-00942: Table ou vue inexistante
+
+
+SQL> select * from SITE1.CLIENT@SITE2TOSITE1 where VILLE='DAKAR';
+
+aucune ligne sÚlectionnÚe
+
+SQL> select * from SITE1.CLIENT@SITE2TOSITE1;
+
+aucune ligne sÚlectionnÚe
+
+SQL> select * from SITE1.CLIENT@SITE2TOSITE1;
+
+MATRI NOM             RUE                       VILLE    TEL
+----- --------------- ------------------------- -------- -----------
+CL001 BBL COMPANY     6 AV DES CHATEIGNES       PARIS    +3310000000
+CL002 FUTUR ADVICE    13, RUE ADELLINE          PARIS    +3370000000
+CL003 ESMT            ROCADE FANN-BEL AIR       DAKAR    +2217800000
+CL004 CLAIRAFRIQUE    4 RUE ST MICHEL           NICE     +3390000000
+CL005 SONATEL         5 ROND POINT MEDINA       DAKAR    +2217500000
+CL006 SDE             RUE 3 X 8 MEDINA          DAKAR    +2217600000
+CL007 SOCOCIM         145 ROUTE DE RUFISQUE     RUFISQUE +2217700000
+CL008 VISION SUD      ZONE A N° 11B             DAKAR    +2217900000
+CL009 ATI             15 AV ALBERT SARRAUT      DAKAR    +2213300000
+CL010 SEN FROID       125, RUE DES PAPIERS      PARIS    +3320000000
+
+10 lignes sÚlectionnÚes.
+
+SQL> select * from SITE1.CLIENT@SITE2TOSITE1 where VILLE='DAKAR';
+
+MATRI NOM             RUE                       VILLE    TEL
+----- --------------- ------------------------- -------- -----------
+CL003 ESMT            ROCADE FANN-BEL AIR       DAKAR    +2217800000
+CL005 SONATEL         5 ROND POINT MEDINA       DAKAR    +2217500000
+CL006 SDE             RUE 3 X 8 MEDINA          DAKAR    +2217600000
+CL008 VISION SUD      ZONE A N° 11B             DAKAR    +2217900000
+CL009 ATI             15 AV ALBERT SARRAUT      DAKAR    +2213300000
+
+SQL> show user
+USER est "SITE2"
+SQL>
+SQL>
+SQL> create table ClientsDakar
+  2  as
+  3  select * from SITE1.CLIENT@SITE2TOSITE1 where VILLE='DAKAR';
+
+Table crÚÚe.
+
+SQL> select * from ClientsDakar;
+
+MATRI NOM             RUE                       VILLE    TEL
+----- --------------- ------------------------- -------- -----------
+CL003 ESMT            ROCADE FANN-BEL AIR       DAKAR    +2217800000
+CL005 SONATEL         5 ROND POINT MEDINA       DAKAR    +2217500000
+CL006 SDE             RUE 3 X 8 MEDINA          DAKAR    +2217600000
+CL008 VISION SUD      ZONE A N° 11B             DAKAR    +2217900000
+CL009 ATI             15 AV ALBERT SARRAUT      DAKAR    +2213300000
+
+SQL> show user
+USER est "SITE2"
+SQL>

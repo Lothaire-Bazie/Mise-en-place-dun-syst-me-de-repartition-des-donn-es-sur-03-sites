@@ -1,0 +1,254 @@
+SQL*Plus: Release 19.0.0.0.0 - Production on Jeu. Mars 17 23:52:35 2022
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+Entrez le nom utilisateur : site1/passer@localhost:1521/ORCLPDB
+
+ConnectÚ Ó :
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+SQL> show user
+USER est "SITE1"
+SQL>
+SQL>
+SQL>
+SQL> --create the table CLIENT
+SQL>
+SQL>
+SQL> create table CLIENT
+  2  (MATRICULE VARCHAR2(5) CONSTRAINT PK_CLIENT PRIMARY KEY,
+  3  NOM VARCHAR2(15), RUE VARCHAR2(25), VILLE VARCHAR2(8), TEL VARCHAR(11));
+
+Table crÚÚe.
+
+SQL> DESC CLIENT;
+ Nom                                       NULL ?   Type
+ ----------------------------------------- -------- ----------------------------
+ MATRICULE                                 NOT NULL VARCHAR2(5)
+ NOM                                                VARCHAR2(15)
+ RUE                                                VARCHAR2(25)
+ VILLE                                              VARCHAR2(8)
+ TEL                                                VARCHAR2(11)
+
+SQL> INSERT INTO CLIENT VALUES
+  2  ('CL001', 'BBL COMPANY', '6 AV DES CHATEIGNES', 'PARIS', '+3310000000');
+
+1 ligne crÚÚe.
+
+SQL> INSERT INTO CLIENT VALUES
+  2  ('CL002', 'FUTUR ADVICE', '13, RUE ADELLINE', 'PARIS', '+3370000000');
+
+1 ligne crÚÚe.
+
+SQL> INSERT INTO CLIENT VALUES
+  2  ('CL003', 'ESMT', 'ROCADE FANN-BEL AIR', 'DAKAR', '+2217800000');
+
+1 ligne crÚÚe.
+
+SQL> INSERT INTO CLIENT VALUES
+  2  ('CL004', 'CLAIRAFRIQUE', '4 RUE ST MICHEL', 'NICE', '+3390000000');
+
+1 ligne crÚÚe.
+
+SQL> INSERT INTO CLIENT VALUES
+  2  ('CL005', 'SONATEL', '5 ROND POINT MEDINA', 'DAKAR', '+2217500000');
+
+1 ligne crÚÚe.
+
+SQL> INSERT INTO CLIENT VALUES
+  2  ('CL006', 'SDE', 'RUE 3 X 8 MEDINA', 'DAKAR', '+2217600000');
+
+1 ligne crÚÚe.
+
+SQL> INSERT INTO CLIENT VALUES
+  2  ('CL007', 'SOCOCIM', '145 ROUTE DE RUFISQUE', 'RUFISQUE', '+2217700000');
+
+1 ligne crÚÚe.
+
+SQL> INSERT INTO CLIENT VALUES
+  2  ('CL008', 'VISION SUD', 'ZONE A N° 11B', 'DAKAR', '+2217900000');
+
+1 ligne crÚÚe.
+
+SQL> INSERT INTO CLIENT VALUES
+  2  ('CL009', 'ATI', '15 AV ALBERT SARRAUT', 'DAKAR', '+2213300000');
+
+1 ligne crÚÚe.
+
+SQL> INSERT INTO CLIENT VALUES
+  2  ('CL010', 'SEN FROID', '125, RUE DES PAPIERS', 'PARIS', '+3320000000');
+
+1 ligne crÚÚe.
+
+SQL> select * from CLIENT;
+
+MATRI NOM             RUE                       VILLE    TEL
+----- --------------- ------------------------- -------- -----------
+CL001 BBL COMPANY     6 AV DES CHATEIGNES       PARIS    +3310000000
+CL002 FUTUR ADVICE    13, RUE ADELLINE          PARIS    +3370000000
+CL003 ESMT            ROCADE FANN-BEL AIR       DAKAR    +2217800000
+CL004 CLAIRAFRIQUE    4 RUE ST MICHEL           NICE     +3390000000
+CL005 SONATEL         5 ROND POINT MEDINA       DAKAR    +2217500000
+CL006 SDE             RUE 3 X 8 MEDINA          DAKAR    +2217600000
+CL007 SOCOCIM         145 ROUTE DE RUFISQUE     RUFISQUE +2217700000
+CL008 VISION SUD      ZONE A N° 11B             DAKAR    +2217900000
+CL009 ATI             15 AV ALBERT SARRAUT      DAKAR    +2213300000
+CL010 SEN FROID       125, RUE DES PAPIERS      PARIS    +3320000000
+
+10 lignes sÚlectionnÚes.
+
+SQL> select * from CLIENT where VILLE='DAKAR';
+
+MATRI NOM             RUE                       VILLE    TEL
+----- --------------- ------------------------- -------- -----------
+CL003 ESMT            ROCADE FANN-BEL AIR       DAKAR    +2217800000
+CL005 SONATEL         5 ROND POINT MEDINA       DAKAR    +2217500000
+CL006 SDE             RUE 3 X 8 MEDINA          DAKAR    +2217600000
+CL008 VISION SUD      ZONE A N° 11B             DAKAR    +2217900000
+CL009 ATI             15 AV ALBERT SARRAUT      DAKAR    +2213300000
+
+SQL> select * from SITE1.CLIENT@SITE2TOSITE1 where VILLE='DAKAR';
+select * from SITE1.CLIENT@SITE2TOSITE1 where VILLE='DAKAR'
+                           *
+ERREUR Ó la ligne 1 :
+ORA-02019: description de connexion pour BdD distante introuvable
+
+
+SQL> show user
+USER est "SITE1"
+SQL> select * from CLIENT where VILLE='DAKAR';
+
+MATRI NOM             RUE                       VILLE    TEL
+----- --------------- ------------------------- -------- -----------
+CL003 ESMT            ROCADE FANN-BEL AIR       DAKAR    +2217800000
+CL005 SONATEL         5 ROND POINT MEDINA       DAKAR    +2217500000
+CL006 SDE             RUE 3 X 8 MEDINA          DAKAR    +2217600000
+CL008 VISION SUD      ZONE A N° 11B             DAKAR    +2217900000
+CL009 ATI             15 AV ALBERT SARRAUT      DAKAR    +2213300000
+
+SQL> show user
+USER est "SITE1"
+SQL> commit;
+
+Validation effectuÚe.
+
+SQL> show user
+USER est "SITE1"
+SQL>
+SQL>
+SQL>
+SQL> show user
+USER est "SITE1"
+SQL> create database link SITE1TOSITE2
+  2  connect to SITE2 identified by passer
+  3  using 'localhost:1521/ORCLPDB';
+
+Lien de base de donnÚes crÚÚ.
+
+SQL>
+SQL>
+SQL> show user
+USER est "SITE1"
+SQL> create synonym ClientsDakar
+  2  for SITE2.ClientsDakar@SITE1TOSITE2;
+
+Synonyme crÚÚ.
+
+SQL>
+SQL> show user
+USER est "SITE1"
+SQL> create database link SITE1TOSITE3
+  2  connect to SITE3 identified by passer
+  3  using 'localhost:1521/ORCLPDB';
+
+Lien de base de donnÚes crÚÚ.
+
+SQL> create synonym AutresClients for SITE3.AutresClients@SITE1TOSITE3;
+
+Synonyme crÚÚ.
+
+SQL> select * from AutresClients;
+
+MATRI NOM             RUE                       VILLE    TEL
+----- --------------- ------------------------- -------- -----------
+CL001 BBL COMPANY     6 AV DES CHATEIGNES       PARIS    +3310000000
+CL002 FUTUR ADVICE    13, RUE ADELLINE          PARIS    +3370000000
+CL004 CLAIRAFRIQUE    4 RUE ST MICHEL           NICE     +3390000000
+CL007 SOCOCIM         145 ROUTE DE RUFISQUE     RUFISQUE +2217700000
+CL010 SEN FROID       125, RUE DES PAPIERS      PARIS    +3320000000
+
+SQL>
+SQL>
+SQL>
+SQL> show user
+USER est "SITE1"
+SQL> select * from ClientsDakar;
+
+MATRI NOM             RUE                       VILLE    TEL
+----- --------------- ------------------------- -------- -----------
+CL003 ESMT            ROCADE FANN-BEL AIR       DAKAR    +2217800000
+CL005 SONATEL         5 ROND POINT MEDINA       DAKAR    +2217500000
+CL006 SDE             RUE 3 X 8 MEDINA          DAKAR    +2217600000
+CL008 VISION SUD      ZONE A N° 11B             DAKAR    +2217900000
+CL009 ATI             15 AV ALBERT SARRAUT      DAKAR    +2213300000
+
+SQL>
+SQL>
+SQL>
+SQL> show user
+USER est "SITE1"
+SQL>
+SQL> create view ClientView
+  2  as
+  3  select * from ClientsDakar
+  4  union
+  5  select * from AutresClients;
+
+Vue crÚÚe.
+
+SQL> select * from ClientView;
+
+MATRI NOM             RUE                       VILLE    TEL
+----- --------------- ------------------------- -------- -----------
+CL001 BBL COMPANY     6 AV DES CHATEIGNES       PARIS    +3310000000
+CL002 FUTUR ADVICE    13, RUE ADELLINE          PARIS    +3370000000
+CL003 ESMT            ROCADE FANN-BEL AIR       DAKAR    +2217800000
+CL004 CLAIRAFRIQUE    4 RUE ST MICHEL           NICE     +3390000000
+CL005 SONATEL         5 ROND POINT MEDINA       DAKAR    +2217500000
+CL006 SDE             RUE 3 X 8 MEDINA          DAKAR    +2217600000
+CL007 SOCOCIM         145 ROUTE DE RUFISQUE     RUFISQUE +2217700000
+CL008 VISION SUD      ZONE A N° 11B             DAKAR    +2217900000
+CL009 ATI             15 AV ALBERT SARRAUT      DAKAR    +2213300000
+CL010 SEN FROID       125, RUE DES PAPIERS      PARIS    +3320000000
+
+10 lignes sÚlectionnÚes.
+
+SQL>
+SQL>
+SQL> show user
+USER est "SITE1"
+SQL> desc site1;
+ERROR:
+ORA-04043: objet site1 inexistant
+
+
+SQL> desc site1
+ERROR:
+ORA-04043: objet site1 inexistant
+
+
+SQL> DESC SITE1
+ERROR:
+ORA-04043: objet SITE1 inexistant
+
+
+SQL> DESC CLIENT
+ Nom                                       NULL ?   Type
+ ----------------------------------------- -------- ----------------------------
+ MATRICULE                                 NOT NULL VARCHAR2(5)
+ NOM                                                VARCHAR2(15)
+ RUE                                                VARCHAR2(25)
+ VILLE                                              VARCHAR2(8)
+ TEL                                                VARCHAR2(11)

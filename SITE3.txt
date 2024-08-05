@@ -1,0 +1,89 @@
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Ven. Mars 18 01:38:51 2022
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+Entrez le nom utilisateur : SITE3/passer@localhost:1521/ORCLPDB
+
+ConnectÚ Ó :
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+SQL>
+SQL> show user
+USER est "SITE3"
+SQL>
+SQL>
+SQL> create database link SITE3TOSITE1
+  2  connect to SITE1 identified by passer
+  3  using 'localhost:1521/ORCLPDB';
+
+Lien de base de donnÚes crÚÚ.
+
+SQL>
+SQL> create table AutresClients
+  2  as
+  3  select * from  SITE1.CLIENT@SITE3TOSITE1 where VILLE != 'DAKAR';
+
+Table crÚÚe.
+
+SQL> select * from AutresClients;
+
+MATRI NOM             RUE                       VILLE    TEL
+----- --------------- ------------------------- -------- -----------
+CL001 BBL COMPANY     6 AV DES CHATEIGNES       PARIS    +3310000000
+CL002 FUTUR ADVICE    13, RUE ADELLINE          PARIS    +3370000000
+CL004 CLAIRAFRIQUE    4 RUE ST MICHEL           NICE     +3390000000
+CL007 SOCOCIM         145 ROUTE DE RUFISQUE     RUFISQUE +2217700000
+CL010 SEN FROID       125, RUE DES PAPIERS      PARIS    +3320000000
+
+SQL> set lines 60
+SQL> set pages 120
+SQL> select * from AutresClients;
+
+MATRI NOM             RUE                       VILLE
+----- --------------- ------------------------- --------
+TEL
+-----------
+CL001 BBL COMPANY     6 AV DES CHATEIGNES       PARIS
++3310000000
+
+CL002 FUTUR ADVICE    13, RUE ADELLINE          PARIS
++3370000000
+
+CL004 CLAIRAFRIQUE    4 RUE ST MICHEL           NICE
++3390000000
+
+CL007 SOCOCIM         145 ROUTE DE RUFISQUE     RUFISQUE
++2217700000
+
+CL010 SEN FROID       125, RUE DES PAPIERS      PARIS
++3320000000
+
+
+SQL> set lines 120
+SQL> set pages 60
+SQL> select * from AutresClients;
+
+MATRI NOM             RUE                       VILLE    TEL
+----- --------------- ------------------------- -------- -----------
+CL001 BBL COMPANY     6 AV DES CHATEIGNES       PARIS    +3310000000
+CL002 FUTUR ADVICE    13, RUE ADELLINE          PARIS    +3370000000
+CL004 CLAIRAFRIQUE    4 RUE ST MICHEL           NICE     +3390000000
+CL007 SOCOCIM         145 ROUTE DE RUFISQUE     RUFISQUE +2217700000
+CL010 SEN FROID       125, RUE DES PAPIERS      PARIS    +3320000000
+
+SQL> show user
+USER est "SITE3"
+SQL> select * from AutresClients;
+
+MATRI NOM             RUE                       VILLE    TEL
+----- --------------- ------------------------- -------- -----------
+CL001 BBL COMPANY     6 AV DES CHATEIGNES       PARIS    +3310000000
+CL002 FUTUR ADVICE    13, RUE ADELLINE          PARIS    +3370000000
+CL004 CLAIRAFRIQUE    4 RUE ST MICHEL           NICE     +3390000000
+CL007 SOCOCIM         145 ROUTE DE RUFISQUE     RUFISQUE +2217700000
+CL010 SEN FROID       125, RUE DES PAPIERS      PARIS    +3320000000
+
+SQL>
